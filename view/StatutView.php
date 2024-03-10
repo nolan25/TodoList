@@ -30,7 +30,7 @@ class StatutView {
 
         // Ajoutez un script JavaScript pour stocker les données des statuts
         echo "<script>";
-        echo "var statutsData = " . json_encode($this->convertStatutsToAssociativeArray($statuts)) . ";";
+        echo "var statutData = " . json_encode($this->convertStatutsToAssociativeArray($statuts)) . ";";
         echo "</script>";
 
         // Incluez directement le script JavaScript dans la page
