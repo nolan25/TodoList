@@ -69,7 +69,7 @@ fetch('/index.php?route=statut')
     .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
     });
-
+test
     */
      
     function fetchAndDisplayStatuts() {
