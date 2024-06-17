@@ -21,11 +21,10 @@
 }
     function createController($FORM, $ROUTE){
         //si mon controlleur  sappelle statutget
-        //je charge le fihier'/controllers/StatutGetController.php
-        $METHOD  = strtolower($_SERVER['REQUEST_METHOD']);//minuscule
-        $METHOD  = ucfirst($_SERVER['REQUEST_METHOD']);//majuscule
-            require(ROOT . '/controllers/' . $ROUTE . $METHOD . 'Controller.php');
-            //la classe dans ce fichier sappelera StatutGetController
+        $METHOD = strtolower($_SERVER['REQUEST_METHOD']);
+        $METHOD = ucfirst($METHOD);
+        require(ROOT . '/controllers/' . $ROUTE . $METHOD . 'Controller.php');  
+            //la classe dans ce fichier sappelera StatutGetController 
             $className = $ROUTE . $METHOD . 'controller';
             $controller = new $className($FORM);
             return $controller;

@@ -1,4 +1,5 @@
 <?php
+
 require_once(ROOT . "/utils/AbstractDao.php");
 require_once(ROOT . "/utils/BaseDao.php");
 require_once(ROOT . "/utils/DbSingleton.php");
@@ -7,13 +8,13 @@ require_once(ROOT . "/model/Statut.php");
 class StatutDao extends AbstractDao implements BaseDao {
 
     private $statutDao;
-
+    
     function __construct() {
     }
 
     function fetchAll(){
         $pdo = DbSingleton::getInstance()->getPdo();
-        $sql = "SELECT * FROM Statut;";
+        $sql = "SELECT * FROM statut;";
         $sth = $pdo->query($sql);
         $result = $sth->fetchAll(PDO::FETCH_OBJ);
         $statuts = array();
@@ -25,8 +26,8 @@ class StatutDao extends AbstractDao implements BaseDao {
         }
         return $statuts;
     }
-
-
+    
+    
     function fetch($id){
     }
 
@@ -38,5 +39,11 @@ class StatutDao extends AbstractDao implements BaseDao {
 
     function delete($id){
     }
+
+    
 }
+
+
+
 ?>
+

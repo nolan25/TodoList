@@ -33,14 +33,6 @@ class StatutService extends AbstractService implements BaseService{
     }
 
 
-
-
-
-
-
-
 }
-
-
 
 ?>
