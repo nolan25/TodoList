@@ -69,23 +69,26 @@ fetch('/index.php?route=statut')
     .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
     });
-test
+
     */
      
     function fetchAndDisplayStatuts() {
         fetch('fetch_statuts.php')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 const statutsContainer = document.getElementById('statuts');
                 statutsContainer.innerHTML = ''; // Efface le contenu actuel
 
-                // Vérifie s'il y a des erreurs
                 if (data.error) {
                     statutsContainer.innerHTML = `<p>Error: ${data.error}</p>`;
                     return;
                 }
 
-                // Affiche les statuts
                 data.forEach(statut => {
                     const statutElement = document.createElement('div');
                     statutElement.classList.add('statut');
@@ -98,9 +101,25 @@ test
                 statutsContainer.innerHTML = `<p>There was a problem with your fetch operation: ${error.message}</p>`;
             });
     }
+    const container = document.getElementById('container');
+if (container) {
+    container.innerHTML = '<p>Contenu ajouté</p>';
+    // Autres manipulations de container ici si nécessaire
+} else {
+    console.error('Element with ID "container" not found');
+}
 
-    // Appel de la fonction au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    // Code à exécuter une fois que le DOM est entièrement chargé
+    const container = document.getElementById('container');
+    if (container) {
+        container.innerHTML = '<p>Contenu ajouté</p>';
+        // Autres manipulations de container ici si nécessaire
+    } else {
+        console.error('Element with ID "container" not found');
+    }
+});
+
     window.onload = fetchAndDisplayStatuts;
-    
 
    

@@ -25,7 +25,7 @@
         $METHOD = ucfirst($METHOD);
         require(ROOT . '/controllers/' . $ROUTE . $METHOD . 'Controller.php');  
             //la classe dans ce fichier sappelera StatutGetController 
-            $className = $ROUTE . $METHOD . 'controller';
+            $className = $ROUTE . $METHOD . 'Controller';
             $controller = new $className($FORM);
             return $controller;
     }
