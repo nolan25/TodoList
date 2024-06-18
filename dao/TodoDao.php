@@ -1,76 +1,69 @@
 <?php
-
-require_once(ROOT . '/utils/AbstractDao.php');
-require_once(ROOT . '/utils/BaseDao.php');
-require_once(ROOT . '/utils/DbSingleton.php');
-require_once(ROOT . '/model/Todo.php');
+require_once(ROOT . "/utils/AbstractDao.php");
+require_once(ROOT . "/utils/BaseDao.php");
+require_once(ROOT . "/utils/DbSingleton.php");
+require_once(ROOT . "/model/Todo.php");
 
 class TodoDao extends AbstractDao implements BaseDao {
+    function __construct() {}
 
-    private $todoDao;
-
-    function __construct() {
-    }
-
-    function fetchAll(){
+    function fetchAll() {
         $pdo = DbSingleton::getInstance()->getPdo();
-        $sql = "SELECT * FROM todos;";
+        $sql = "SELECT * FROM Todo;";
         $sth = $pdo->query($sql);
         $result = $sth->fetchAll(PDO::FETCH_OBJ);
         $todos = array();
-        foreach($result as $row){
+        foreach($result as $row) {
             $todo = new Todo();
-            $todo->setId(intval($row->id));
-            $todo->setTitle($row->title);
-            $todo->setDescription($row->description);
+            $todo->setId($row->Id_Todo);
+            $todo->setTitre($row->Titre);
+            $todo->setDescription($row->Description);
+            $todo->setDateCreation($row->Date_Creation);
+            $todo->setDateModif($row->Date_modif);
+            $todo->setResModifi($row->ResModifi);
+            $todo->setEcheance($row->Echeance);
+            $todo->setIdStatut($row->Id_Statut);
+            $todo->setIdPriorite($row->Id_Priorite);
+            $todo->setIdUsers($row->Id_Users);
             array_push($todos, $todo);
         }
         return $todos;
     }
 
-    function fetch($id){
+    function fetch($id) {
         $pdo = DbSingleton::getInstance()->getPdo();
-        $sql = "SELECT * FROM todos WHERE id = :id";
+        $sql = "SELECT * FROM Todo WHERE Id_Todo = ?;";
         $sth = $pdo->prepare($sql);
-        $sth->execute([':id' => $id]);
+        $sth->execute([$id]);
         $row = $sth->fetch(PDO::FETCH_OBJ);
         if ($row) {
             $todo = new Todo();
-            $todo->setId(intval($row->id));
-            $todo->setTitle($row->title);
-            $todo->setDescription($row->description);
+            $todo->setId($row->Id_Todo);
+            $todo->setTitre($row->Titre);
+            $todo->setDescription($row->Description);
+            $todo->setDateCreation($row->Date_Creation);
+            $todo->setDateModif($row->Date_modif);
+            $todo->setResModifi($row->ResModifi);
+            $todo->setEcheance($row->Echeance);
+            $todo->setIdStatut($row->Id_Statut);
+            $todo->setIdPriorite($row->Id_Priorite);
+            $todo->setIdUsers($row->Id_Users);
             return $todo;
+        } else {
+            return null;
         }
-        return null;
     }
 
-    function insert($entity){
-        $pdo = DbSingleton::getInstance()->getPdo();
-        $sql = "INSERT INTO todos (title, description) VALUES (:title, :description)";
-        $sth = $pdo->prepare($sql);
-        $sth->execute([
-            ':title' => $entity->getTitle(),
-            ':description' => $entity->getDescription()
-        ]);
+    function insert($entity) {
+        // Code pour insérer un nouveau Todo
     }
 
-    function update($entity){
-        $pdo = DbSingleton::getInstance()->getPdo();
-        $sql = "UPDATE todos SET title = :title, description = :description WHERE id = :id";
-        $sth = $pdo->prepare($sql);
-        $sth->execute([
-            ':id' => $entity->getId(),
-            ':title' => $entity->getTitle(),
-            ':description' => $entity->getDescription()
-        ]);
+    function update($entity) {
+        // Code pour mettre à jour un Todo existant
     }
 
-    function delete($id){
-        $pdo = DbSingleton::getInstance()->getPdo();
-        $sql = "DELETE FROM todos WHERE id = :id";
-        $sth = $pdo->prepare($sql);
-        $sth->execute([':id' => $id]);
+    function delete($id) {
+        // Code pour supprimer un Todo
     }
 }
-
 ?>
