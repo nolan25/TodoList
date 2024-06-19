@@ -1,6 +1,8 @@
-<?php   
+<?php 
+
+    //Cette fonction traite la méthode HTTP utilisée pour la requête et retourne les données du formulaire en fonction de cette méthode.  
     function extractForm(){
-        // echo $_SERVER['REQUEST_METHOD'];
+        
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET': return $_GET;                                       //pour recuper des donnes (READ)
             case 'POST': return $_POST;                                     // pour cree un nouvel enregistrement (CREATE)
@@ -9,16 +11,20 @@
             default : _405_Method_Not_Allowed();
         }
     }
-   function extractRoute($form) {
-    if (!isset($form['route'])) {
-        return 'home'; // Route par défaut
+
+
+    function extractRoute($form) {
+
+        if (!isset($form['route'])) {
+            return 'home'; // Route par défaut
+        }
+        $ROUTE = $form['route'];
+        if (preg_match('/^[A-Za-z]+$/', $ROUTE)) {
+            return $ROUTE;
+        }
+        _400_Bad_Request();
     }
-    $ROUTE = $form['route'];
-    if (preg_match('/^[A-Za-z]+$/', $ROUTE)) {
-        return $ROUTE;
-    }
-    _400_Bad_Request();
-}
+
     function createController($FORM, $ROUTE){
         //si mon controlleur  sappelle statutget
         $METHOD = strtolower($_SERVER['REQUEST_METHOD']);

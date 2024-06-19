@@ -72,8 +72,12 @@ fetch('/index.php?route=statut')
 
     */
      
-    function fetchAndDisplayStatuts() {
-        fetch('fetch_statuts.php')
+
+
+   
+
+    function fetchAndDisplayTodos() {
+        fetch('fetch_todos.php')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -81,45 +85,25 @@ fetch('/index.php?route=statut')
                 return response.json();
             })
             .then(data => {
-                const statutsContainer = document.getElementById('statuts');
-                statutsContainer.innerHTML = ''; // Efface le contenu actuel
+                const todosContainer = document.getElementById('todos');
+                todosContainer.innerHTML = ''; // Efface le contenu actuel
 
                 if (data.error) {
-                    statutsContainer.innerHTML = `<p>Error: ${data.error}</p>`;
+                    todosContainer.innerHTML = `<p>Error: ${data.error}</p>`;
                     return;
                 }
 
-                data.forEach(statut => {
-                    const statutElement = document.createElement('div');
-                    statutElement.classList.add('statut');
-                    statutElement.innerHTML = `<strong>ID:</strong> ${statut.id} <br> <strong>Label:</strong> ${statut.label}`;
-                    statutsContainer.appendChild(statutElement);
+                data.forEach(todo => {
+                    const todoElement = document.createElement('div');
+                    todoElement.classList.add('todo');
+                    todoElement.innerHTML = `<strong>ID:</strong> ${todo.id} <br> <strong>Titre:</strong> ${todo.titre} <br> <strong>Description:</strong> ${todo.description}`;
+                    todosContainer.appendChild(todoElement);
                 });
             })
             .catch(error => {
-                const statutsContainer = document.getElementById('statuts');
-                statutsContainer.innerHTML = `<p>There was a problem with your fetch operation: ${error.message}</p>`;
+                const todosContainer = document.getElementById('todos');
+                todosContainer.innerHTML = `<p>There was a problem with your fetch operation: ${error.message}</p>`;
             });
     }
-    const container = document.getElementById('container');
-if (container) {
-    container.innerHTML = '<p>Contenu ajouté</p>';
-    // Autres manipulations de container ici si nécessaire
-} else {
-    console.error('Element with ID "container" not found');
-}
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Code à exécuter une fois que le DOM est entièrement chargé
-    const container = document.getElementById('container');
-    if (container) {
-        container.innerHTML = '<p>Contenu ajouté</p>';
-        // Autres manipulations de container ici si nécessaire
-    } else {
-        console.error('Element with ID "container" not found');
-    }
-});
-
-    window.onload = fetchAndDisplayStatuts;
-
-   
+    window.onload = fetchAndDisplayTodos;

@@ -1,7 +1,7 @@
 <?php
 require_once(ROOT . "/dao/TodoDao.php");
 
-class TodoService  {
+class TodoService extends AbstractService implements BaseService  {
     private $tododao;
 
     function __construct() {
@@ -14,6 +14,17 @@ class TodoService  {
 
     public function fetch($id) {
         return $this->tododao->fetch($id);
+    }
+    public function insert($entity){
+        
+    }
+
+    public function update($entity){
+        
+    }
+    
+    public function delete($id){
+        
     }
 }
 ?>

@@ -23,6 +23,7 @@ class StatusGetController extends AbstractController {
             error_log(__FUNCTION__ . " listing");
         } else {
             error_log(__FUNCTION__ . " un seul status");
+            //$this->id = $this->form["id"];
             $this->id = $this->form["id"];
         }
     }
