@@ -3,9 +3,10 @@
     require(ROOT."/service/PrioriteService.php");
     
     class PrioriteGetController extends AbstractController{
+        
         private $service;
-
         private $priorites;
+        
 
         public function __construct($form){
             parent::__construct($form, "PrioriteGetController");
@@ -57,5 +58,6 @@
                 echo json_encode($this->priorites);
             }            
         }
-    } 
+    }
 ?>
+

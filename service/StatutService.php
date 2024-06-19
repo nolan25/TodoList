@@ -4,7 +4,7 @@ require_once(ROOT . '/utils/AbstractService.php');
 require_once(ROOT . '/utils/BaseService.php');
 require_once(ROOT . '/dao/StatutDao.php');
 
-class StatutService extends AbstractService implements BaseService{
+class StatutService extends AbstractService implements BaseService {
     private $statutDao;
 
     function __construct(){

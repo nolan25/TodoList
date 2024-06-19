@@ -5,7 +5,7 @@ require(ROOT . "/service/TodoService.php");
 class TodoGetController extends AbstractController {
     private $service;
     private $todos;
-    private $todo;
+   
 
     public function __construct($form) {
         parent::__construct($form, "TodoGetController");

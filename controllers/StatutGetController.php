@@ -8,6 +8,7 @@ class StatusGetController extends AbstractController {
 
     private $service;
     private $statuts;
+    
 
     public function __construct($form) {
         parent::__construct($form, "StatutGetController");
