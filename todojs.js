@@ -76,34 +76,16 @@ fetch('/index.php?route=statut')
 
    
 
-    function fetchAndDisplayTodos() {
-        fetch('fetch_todos.php')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+    
+
+    function fetchTodoById(id) {
+        fetch(`index.php?route=todo&id=${id}`, { method: 'GET' })
+            .then(response => response.json())
             .then(data => {
-                const todosContainer = document.getElementById('todos');
-                todosContainer.innerHTML = ''; // Efface le contenu actuel
-
-                if (data.error) {
-                    todosContainer.innerHTML = `<p>Error: ${data.error}</p>`;
-                    return;
-                }
-
-                data.forEach(todo => {
-                    const todoElement = document.createElement('div');
-                    todoElement.classList.add('todo');
-                    todoElement.innerHTML = `<strong>ID:</strong> ${todo.id} <br> <strong>Titre:</strong> ${todo.titre} <br> <strong>Description:</strong> ${todo.description}`;
-                    todosContainer.appendChild(todoElement);
-                });
+                console.log('Fetched Todo:', data);
+                // Affichez les données de todo comme vous le souhaitez
             })
             .catch(error => {
-                const todosContainer = document.getElementById('todos');
-                todosContainer.innerHTML = `<p>There was a problem with your fetch operation: ${error.message}</p>`;
+                console.error('Error fetching todo:', error);
             });
     }
-
-    window.onload = fetchAndDisplayTodos;

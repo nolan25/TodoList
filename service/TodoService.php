@@ -1,30 +1,34 @@
 <?php
-require_once(ROOT . "/dao/TodoDao.php");
+    require_once(ROOT . "/dao/TodoDao.php");
+    require_once(ROOT."/utils/AbstractService.php");
+    require_once(ROOT."/utils/BaseService.php");
 
-class TodoService extends AbstractService implements BaseService  {
-    private $tododao;
+    class TodoService extends AbstractService implements BaseService  {
+        private $tododao;
 
-    function __construct() {
-        $this->tododao = new TodoDao();
-    }
+        function __construct() {
+            $this->tododao = new TodoDao();
+        }
 
-    public function fetchAll() {
-        return $this->tododao->fetchAll();
-    }
+        public function fetchAll() {
+            $list = $this->tododao->fetchAll();
+                return $list;
+        }
 
-    public function fetch($id) {
-        return $this->tododao->fetch($id);
-    }
-    public function insert($entity){
+        public function fetch($id) {
+            return $this->tododao->fetch($id);
+        }
+        public function insert($entity){
+            return;
+        }
+
+        public function update($entity){
+            return;
+            
+        }
         
+        public function delete($id){
+            return;
+        }
     }
-
-    public function update($entity){
-        
-    }
-    
-    public function delete($id){
-        
-    }
-}
 ?>

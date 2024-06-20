@@ -40,6 +40,7 @@
             $priorite->setLabel($result->label);
             return $priorite;
         }
+        
 
         function insert($entity){
             $pdo = DbSingleton::getInstance()->getPdo();

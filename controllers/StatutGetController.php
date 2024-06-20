@@ -4,7 +4,7 @@ require(ROOT . "/utils/AbstractController.php");
 require(ROOT . "/service/StatutService.php");
 
 
-class StatusGetController extends AbstractController {
+class StatutGetController extends AbstractController {
 
     private $service;
     private $statuts;

@@ -12,7 +12,7 @@
         }
     }
 
-
+    //Cette fonction extrait et valide la route à partir du formulaire reçu.
     function extractRoute($form) {
 
         if (!isset($form['route'])) {
@@ -26,16 +26,24 @@
     }
 
     function createController($FORM, $ROUTE){
-        //si mon controlleur  sappelle statutget
+        // Convertir la route en CamelCase
         $METHOD = strtolower($_SERVER['REQUEST_METHOD']);
         $METHOD = ucfirst($METHOD);
+    
+        $ROUTE = ucfirst(strtolower($ROUTE)); // Convertir la première lettre en majuscule pour correspondre au nom de la classe
         require(ROOT . '/controllers/' . $ROUTE . $METHOD . 'Controller.php');  
-            //la classe dans ce fichier sappelera StatutGetController 
-            $className = $ROUTE . $METHOD . 'Controller';
+    
+        $className = $ROUTE . $METHOD . 'Controller';
+        echo $className;
+        if (class_exists($className)) {
             $controller = new $className($FORM);
             return $controller;
+        } else { 
+            _404_Not_Found();
+        }
     }
 
+    //Cette fonction extrait les données brutes du corps de la requête HTTP.
     function extractRawForm() {
         $raw = file_get_contents('php://input');
         $form = [];

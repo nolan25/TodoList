@@ -1,8 +1,8 @@
 <?php
 
-require_once(ROOT . '/utils/AbstractService.php');
-require_once(ROOT . '/utils/BaseService.php');
-require_once(ROOT . '/dao/StatutDao.php');
+require_once(ROOT . "/utils/AbstractService.php");
+require_once(ROOT . "/utils/BaseService.php");
+require_once(ROOT . "/dao/StatutDao.php");
 
 class StatutService extends AbstractService implements BaseService {
     private $statutDao;
@@ -21,15 +21,15 @@ class StatutService extends AbstractService implements BaseService {
     }
 
     public function insert($entity){
-        
+        return $this->statutDao->insert($entity);
     }
 
     public function update($entity){
-        
+        return $this->statutDao->update($entity);
     }
     
     public function delete($id){
-        
+        return $this->statutDao->delete($id);
     }
 
 

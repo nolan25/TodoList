@@ -6,53 +6,128 @@ require_once(ROOT . "/model/Todo.php");
 
 class TodoDao extends AbstractDao implements BaseDao {
     function __construct() {}
-
     function fetchAll() {
         $pdo = DbSingleton::getInstance()->getPdo();
-        $sql = "SELECT * FROM Todo;";
-        $sth = $pdo->query($sql);
-        $result = $sth->fetchAll(PDO::FETCH_OBJ);
-        $todos = array();
-        foreach($result as $row) {
-            $todo = new Todo();
-            $todo->setId($row->Id_Todo);
-            $todo->setTitre($row->Titre);
-            $todo->setDescription($row->Description);
-            $todo->setDateCreation($row->Date_Creation);
-            $todo->setDateModif($row->Date_modif);
-            $todo->setResModifi($row->ResModifi);
-            $todo->setEcheance($row->Echeance);
-            $todo->setIdStatut($row->Id_Statut);
-            $todo->setIdPriorite($row->Id_Priorite);
-            $todo->setIdUsers($row->Id_Users);
-            array_push($todos, $todo);
+        try {
+            $sql = "SELECT * FROM todo;";
+            $sth = $pdo->prepare($sql);
+            $sth->execute();
+            $results = $sth->fetchAll(PDO::FETCH_OBJ);
+
+            $todos = [];
+            foreach ($results as $row) {
+                $todo = new stdClass();
+                $todo->id = intval($row->Id_Todo);
+                $todo->titre = $row->Titre;
+                $todo->description = $row->Description;
+                $todo->date_creation = $row->Date_Creation;
+                $todo->date_modif = $row->Date_modif;
+                $todo->res_modifi = $row->ResModifi;
+                $todo->echeance = $row->Echeance;
+                $todo->id_statut = intval($row->Id_Statut);
+                $todo->id_priorite = intval($row->Id_Priorite);
+                $todo->id_users = intval($row->Id_Users);
+                $todos[] = $todo;
+            }
+            
+            error_log("Fetched todos: " . print_r($todos, true));
+            
+            return $todos;
+        } catch (PDOException $e) {
+            error_log("Error fetching all todos: " . $e->getMessage());
+            return [];
         }
-        return $todos;
     }
 
     function fetch($id) {
         $pdo = DbSingleton::getInstance()->getPdo();
-        $sql = "SELECT * FROM Todo WHERE Id_Todo = ?;";
-        $sth = $pdo->prepare($sql);
-        $sth->execute([$id]);
-        $row = $sth->fetch(PDO::FETCH_OBJ);
-        if ($row) {
-            $todo = new Todo();
-            $todo->setId($row->Id_Todo);
-            $todo->setTitre($row->Titre);
-            $todo->setDescription($row->Description);
-            $todo->setDateCreation($row->Date_Creation);
-            $todo->setDateModif($row->Date_modif);
-            $todo->setResModifi($row->ResModifi);
-            $todo->setEcheance($row->Echeance);
-            $todo->setIdStatut($row->Id_Statut);
-            $todo->setIdPriorite($row->Id_Priorite);
-            $todo->setIdUsers($row->Id_Users);
-            return $todo;
-        } else {
-            return null;
+        try {
+            $sql = "SELECT * FROM todo WHERE Id_Todo = :id;";
+            $sth = $pdo->prepare($sql);
+            $sth->bindParam(':id', $id, PDO::PARAM_INT);
+            $sth->execute();
+            $row = $sth->fetch(PDO::FETCH_OBJ);
+
+            if ($row) {
+                $todo = new stdClass();
+                $todo->id = intval($row->Id_Todo);
+                $todo->titre = $row->Titre;
+                $todo->description = $row->Description;
+                $todo->date_creation = $row->Date_Creation;
+                $todo->date_modif = $row->Date_modif;
+                $todo->res_modifi = $row->ResModifi;
+                $todo->echeance = $row->Echeance;
+                $todo->id_statut = intval($row->Id_Statut);
+                $todo->id_priorite = intval($row->Id_Priorite);
+                $todo->id_users = intval($row->Id_Users);
+                
+                error_log("Fetched todo: " . print_r($todo, true));
+                
+                return $todo;
+            } else {
+                error_log("No todo found with Id_Todo = " . $id);
+            }
+        } catch (PDOException $e) {
+            error_log("Error fetching todo: " . $e->getMessage());
+        }
+        return null;
+    }
+
+
+    /* seulement pour afficher id titre descrioption
+    function fetchAll() {
+        $pdo = DbSingleton::getInstance()->getPdo();
+        try {
+            $sql = "SELECT Id_Todo, Titre, Description FROM todo;";
+            $sth = $pdo->prepare($sql);
+            $sth->execute();
+            $results = $sth->fetchAll(PDO::FETCH_OBJ);
+
+            $todos = [];
+            foreach ($results as $row) {
+                $todo = new stdClass(); // Use stdClass for simplicity
+                $todo->id = intval($row->Id_Todo);
+                $todo->titre = $row->Titre;
+                $todo->description = $row->Description;
+                $todos[] = $todo;
+            }
+            
+            error_log("Fetched todos: " . print_r($todos, true));
+            
+            return $todos;
+        } catch (PDOException $e) {
+            error_log("Error fetching all todos: " . $e->getMessage());
+            return [];
         }
     }
+
+    function fetch($id) {
+        $pdo = DbSingleton::getInstance()->getPdo();
+        try {
+            $sql = "SELECT Id_Todo, Titre, Description FROM todo WHERE Id_Todo = :id;";
+            $sth = $pdo->prepare($sql);
+            $sth->bindParam(':id', $id, PDO::PARAM_INT);
+            $sth->execute();
+            $row = $sth->fetch(PDO::FETCH_OBJ);
+
+            if ($row) {
+                $todo = new stdClass();
+                $todo->id = intval($row->Id_Todo);
+                $todo->titre = $row->Titre;
+                $todo->description = $row->Description;
+                
+                error_log("Fetched todo: " . print_r($todo, true));
+                
+                return $todo;
+            } else {
+                error_log("No todo found with Id_Todo = " . $id);
+            }
+        } catch (PDOException $e) {
+            error_log("Error fetching todo: " . $e->getMessage());
+        }
+        return null;
+    }
+    */
 
     function insert($entity) {
         // Code pour insérer un nouveau Todo

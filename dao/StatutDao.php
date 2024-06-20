@@ -28,13 +28,18 @@ class StatutDao extends AbstractDao implements BaseDao {
     
     function fetch($id){
         $pdo = DbSingleton::getInstance()->getPdo();
-        $sql = "SELECT * FROM statut WHERE id=".$id.";";
-        $sth = $pdo->query($sql);
-        $result = $sth->fetchAll(PDO::FETCH_OBJ);
-        $statut = new Statut();
-        $statut->setId( intval($result->Id_Statut));  // Correction : utilisez setId au lieu de setid
-        $statut->setLabel($result->Label);   // Correction : utilisez setLabel au lieu de setlabel
-        return $statut;
+        $sql = "SELECT * FROM statut WHERE Id_Statut = :id;";
+        $sth = $pdo->prepare($sql);
+        $sth->bindParam(':id', $id, PDO::PARAM_INT);
+        $sth->execute();
+        $row = $sth->fetch(PDO::FETCH_OBJ);
+        if ($row) {
+            $statut = new Statut();
+            $statut->setId(intval($row->Id_Statut));
+            $statut->setLabel($row->Label);
+            return $statut;
+        }
+        return null;
     }
 
     function insert($entity){
