@@ -129,8 +129,14 @@ class TodoDao extends AbstractDao implements BaseDao {
     }
     */
 
-    function insert($entity) {
-        // Code pour insérer un nouveau Todo
+    public function insert($todo) {
+        $pdo = $this->getPDO();
+        $sql = "INSERT INTO Todo (Titre, Description) VALUES (:titre, :description)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':titre', $todo->getTitle(), PDO::PARAM_STR);
+        $stmt->bindValue(':description', $todo->getDescription(), PDO::PARAM_STR);
+        $stmt->execute();
+        return $pdo->lastInsertId();
     }
 
     function update($entity) {

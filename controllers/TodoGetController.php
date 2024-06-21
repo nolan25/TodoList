@@ -44,6 +44,7 @@ class TodoGetController extends AbstractController {
     }
 
     protected function processResponse() {
+        header('Content-Type: application/json');
         if (isset($this->id)) {
             echo json_encode($this->todo);
         } else {

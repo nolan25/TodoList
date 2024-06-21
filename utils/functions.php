@@ -34,7 +34,7 @@
         require(ROOT . '/controllers/' . $ROUTE . $METHOD . 'Controller.php');  
     
         $className = $ROUTE . $METHOD . 'Controller';
-        echo $className;
+        
         if (class_exists($className)) {
             $controller = new $className($FORM);
             return $controller;
