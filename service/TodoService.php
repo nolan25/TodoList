@@ -18,8 +18,8 @@
         public function fetch($id) {
             return $this->tododao->fetch($id);
         }
-        public function insert($entity){
-            return;
+        public function insert($todo){
+            return $this->tododao->insert($todo);
         }
 
         public function update($entity){
