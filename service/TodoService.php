@@ -1,34 +1,44 @@
 <?php
-    require_once(ROOT . "/dao/TodoDao.php");
-    require_once(ROOT."/utils/AbstractService.php");
-    require_once(ROOT."/utils/BaseService.php");
+require_once(ROOT . "/dao/TodoDao.php");
+require_once(ROOT . "/utils/AbstractService.php");
+require_once(ROOT . "/utils/BaseService.php");
 
-    class TodoService extends AbstractService implements BaseService  {
-        private $tododao;
+class ToDoService extends AbstractService implements BaseService
+{
+    private $todoDao;
 
-        function __construct() {
-            $this->tododao = new TodoDao();
-        }
+    function __construct()
+    {
+        //on n'utilise que les méthodes de l'interface
+        $this->todoDao = new ToDoDao();
 
-        public function fetchAll() {
-            $list = $this->tododao->fetchAll();
-                return $list;
-        }
-
-        public function fetch($id) {
-            return $this->tododao->fetch($id);
-        }
-        public function insert($todo){
-            return $this->tododao->insert($todo);
-        }
-
-        public function update($entity){
-            return;
-            
-        }
-        
-        public function delete($id){
-            return;
-        }
     }
+
+    function fetchAll()
+    {
+        $list = $this->todoDao->fetchAll();
+        return $list;
+
+    }
+    public function fetch($id)
+    {
+        return $this->todoDao->fetch($id);
+    }
+
+    public function insert($entity)
+    {
+        return $this->todoDao->insert($entity);
+    }
+
+    public function update($entity, $id)
+    {
+        return $this->todoDao->update($entity, $id);
+    }
+
+    public function delete($id)
+    {
+        return $this->todoDao->delete($id);
+    }
+}
+
 ?>

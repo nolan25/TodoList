@@ -44,15 +44,21 @@
 
         function insert($entity){
             $pdo = DbSingleton::getInstance()->getPdo();
-            $sql = "INSERT INTO priorite (libelle) VALUES (:libelle)";
+            $sql = "INSERT INTO priorite (label) VALUES (:label)";
             $sth = $pdo->prepare($sql);
-            $sth->bindValue(':libelle', $entity, PDO::PARAM_STR);
+            $sth->bindValue(':label', $entity, PDO::PARAM_STR);
             $sth->execute();
             return $entity; 
         }
 
-        function update($entity){
-           return;
+        function update($entity, $id){
+            $pdo = DbSingleton::getInstance()->getPdo();
+            $sql = "UPDATE priorite SET label = :label1 WHERE label = :label";
+            $sth = $pdo->prepare($sql);
+            $sth->bindValue(':label1', $modif, PDO::PARAM_STR);
+            $sth->bindValue(':label', $entity, PDO::PARAM_STR);
+            $sth->execute();
+            return $entity;
         }
 
         function delete($id){

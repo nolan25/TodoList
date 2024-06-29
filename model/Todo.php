@@ -5,52 +5,49 @@ class Todo {
     private $titre;
     private $description;
     private $dateCreation;
-    private $dateModif;
-    private $resModifi;
     private $echeance;
     private $idStatut;
     private $idPriorite;
     private $idUsers;
+    private $dateModification;
+
+    function __construct(){}
 
     // Getters
     public function getId() {
-        return $this->id;
+        return $this->id ?? '';
     }
 
     public function getTitre() {
-        return $this->titre;
+        return $this->titre ?? '';
     }
 
     public function getDescription() {
-        return $this->description;
+        return $this->description ?? '';
     }
-
+      
     public function getDateCreation() {
-        return $this->dateCreation;
-    }
-
-    public function getDateModif() {
-        return $this->dateModif;
-    }
-
-    public function getResModifi() {
-        return $this->resModifi;
+        return $this->dateCreation ?? '';
     }
 
     public function getEcheance() {
-        return $this->echeance;
+        return $this->echeance ?? '';
     }
 
     public function getIdStatut() {
-        return $this->idStatut;
+        return $this->idStatut ?? '';
     }
 
     public function getIdPriorite() {
-        return $this->idPriorite;
+        return $this->idPriorite ?? '';
     }
 
     public function getIdUsers() {
-        return $this->idUsers;
+        return $this->idUsers ?? '';
+    }
+
+    public function getDateModification() {
+        return $this->dateModification ?? '';
     }
 
     // Setters
@@ -70,14 +67,6 @@ class Todo {
         $this->dateCreation = $dateCreation;
     }
 
-    public function setDateModif($dateModif) {
-        $this->dateModif = $dateModif;
-    }
-
-    public function setResModifi($resModifi) {
-        $this->resModifi = $resModifi;
-    }
-
     public function setEcheance($echeance) {
         $this->echeance = $echeance;
     }
@@ -93,5 +82,19 @@ class Todo {
     public function setIdUsers($idUsers) {
         $this->idUsers = $idUsers;
     }
+
+    public function setDateModification($dateModification) {
+        $this->dateModification = $dateModification;
+    }
+
+    public static function create($form) : Todo {
+        $todo = new Todo();
+        $todo->setTitre($form['titre']);
+        $todo->setDescription($form['description']); 
+    
+        return $todo;
+    }
+    
 }
+
 ?>

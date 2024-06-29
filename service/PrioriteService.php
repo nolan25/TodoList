@@ -3,7 +3,7 @@
     require_once(ROOT."/utils/BaseService.php");
     require_once(ROOT."/dao/PrioriteDao.php");
 
-    class PrioriteService extends AbstractService implements BaseService{
+    class PrioriteService {
         private $prioriteDao;
         
         function __construct(){
@@ -20,14 +20,15 @@
             return $this->prioriteDao->fetch($id);
         }
 
-        public function insert($entity){
+        public function insert($entity) {
+            error_log('Inserting entity: ' . json_encode($entity));
             $insertedLabel = $this->prioriteDao->insert($entity);
-    
+            error_log('Inserted label: ' . json_encode($insertedLabel));
             return $insertedLabel;
         }
 
-        public function update($entity){
-            return $this->prioriteDao->update($entity);
+        public function uptade($entity, $id){
+            return $this->prioriteDao->update($entity, $id);
         }
 
         public function delete($id){

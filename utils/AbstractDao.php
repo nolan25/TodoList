@@ -10,7 +10,7 @@
 
                 abstract public function insert($entity);
 
-                abstract public function update($entity);
+                abstract public function update($entity, $id);
 
                 abstract public function delete($id);
 

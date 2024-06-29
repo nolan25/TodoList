@@ -6,6 +6,7 @@ require_once(ROOT . "/model/Todo.php");
 
 class TodoDao extends AbstractDao implements BaseDao {
     function __construct() {}
+
     function fetchAll() {
         $pdo = DbSingleton::getInstance()->getPdo();
         try {
@@ -72,79 +73,97 @@ class TodoDao extends AbstractDao implements BaseDao {
         }
         return null;
     }
+    
+    function insert($entity) {
 
-
-    /* seulement pour afficher id titre descrioption
-    function fetchAll() {
-        $pdo = DbSingleton::getInstance()->getPdo();
-        try {
-            $sql = "SELECT Id_Todo, Titre, Description FROM todo;";
+        function getSmallestAvailableId($pdo) {
+            $sql = "SELECT MIN(t1.Id_Todo + 1) AS smallest_id
+                    FROM todo t1
+                    LEFT JOIN todo t2 ON t1.Id_Todo + 1 = t2.Id_Todo
+                    WHERE t2.Id_Todo IS NULL";
             $sth = $pdo->prepare($sql);
             $sth->execute();
-            $results = $sth->fetchAll(PDO::FETCH_OBJ);
-
-            $todos = [];
-            foreach ($results as $row) {
-                $todo = new stdClass(); // Use stdClass for simplicity
-                $todo->id = intval($row->Id_Todo);
-                $todo->titre = $row->Titre;
-                $todo->description = $row->Description;
-                $todos[] = $todo;
-            }
-            
-            error_log("Fetched todos: " . print_r($todos, true));
-            
-            return $todos;
-        } catch (PDOException $e) {
-            error_log("Error fetching all todos: " . $e->getMessage());
-            return [];
+            $result = $sth->fetch(PDO::FETCH_ASSOC);
+            return $result['smallest_id'] ?? 1; // Si aucun enregistrement, commencer à 1
         }
-    }
-
-    function fetch($id) {
+    
         $pdo = DbSingleton::getInstance()->getPdo();
         try {
-            $sql = "SELECT Id_Todo, Titre, Description FROM todo WHERE Id_Todo = :id;";
+            // Trouver le plus petit ID disponible
+            $id = getSmallestAvailableId($pdo);
+    
+            $sql = "INSERT INTO todo (Id_Todo, Titre, Description, Date_Creation, Echeance, Id_Statut, Id_Priorite, Id_Users) 
+                    VALUES (:id, :titre, :description, :date_creation, :echeance, :id_statut, :id_priorite, :id_users);";
+            $sth = $pdo->prepare($sql);
+    
+            // Stocker les valeurs des getters dans des variables
+            $titre = $entity->getTitre();
+            $description = $entity->getDescription();
+            $date_creation = $entity->getDateCreation();
+            $echeance = $entity->getEcheance();
+            $id_statut = $entity->getIdStatut();
+            $id_priorite = $entity->getIdPriorite();
+            $id_users = $entity->getIdUsers();
+    
+            // Lier les variables aux paramètres
+            $sth->bindParam(':id', $id, PDO::PARAM_INT);
+            $sth->bindParam(':titre', $titre, PDO::PARAM_STR);
+            $sth->bindParam(':description', $description, PDO::PARAM_STR);
+            $sth->bindParam(':date_creation', $date_creation, PDO::PARAM_STR);
+            $sth->bindParam(':echeance', $echeance, PDO::PARAM_STR);
+            $sth->bindParam(':id_statut', $id_statut, PDO::PARAM_INT);
+            $sth->bindParam(':id_priorite', $id_priorite, PDO::PARAM_INT);
+            $sth->bindParam(':id_users', $id_users, PDO::PARAM_INT);
+    
+            // Exécution de l'insertion
+            $sth->execute();
+    
+            // Mettre à jour l'ID de l'entité
+            $entity->setId($id);
+    
+            error_log("Inserted todo: " . print_r($entity, true));
+    
+            return $entity;
+        } catch (PDOException $e) {
+            error_log("Error inserting todo: " . $e->getMessage());
+            return null;
+        }
+    }
+    
+    
+    public function update($entity, $id)
+    {
+        $pdo = DbSingleton::getInstance()->getPdo();
+        $sql = "UPDATE todo SET titre = :titre, description = :description, Date_modif = NOW() WHERE id_todo = :id_todo";
+        $sth = $pdo->prepare($sql);
+    
+        // Liaison des paramètres
+        $sth->execute(
+            array(
+                ':id_todo' => $id,
+                ':description' => $entity->getDescription(),
+                ':titre' => $entity->getTitre(),
+            )
+        );
+    
+        // Vérifiez si la mise à jour a réussi
+        if ($sth->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function delete($id) {
+        $pdo = DbSingleton::getInstance()->getPdo();
+        try {
+            $sql = "DELETE FROM todo WHERE Id_Todo = :id;";
             $sth = $pdo->prepare($sql);
             $sth->bindParam(':id', $id, PDO::PARAM_INT);
             $sth->execute();
-            $row = $sth->fetch(PDO::FETCH_OBJ);
-
-            if ($row) {
-                $todo = new stdClass();
-                $todo->id = intval($row->Id_Todo);
-                $todo->titre = $row->Titre;
-                $todo->description = $row->Description;
-                
-                error_log("Fetched todo: " . print_r($todo, true));
-                
-                return $todo;
-            } else {
-                error_log("No todo found with Id_Todo = " . $id);
-            }
         } catch (PDOException $e) {
-            error_log("Error fetching todo: " . $e->getMessage());
+            error_log("Error deleting todo: " . $e->getMessage());
         }
-        return null;
-    }
-    */
-
-    public function insert($todo) {
-        $pdo = $this->getPDO();
-        $sql = "INSERT INTO Todo (Titre, Description) VALUES (:titre, :description)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':titre', $todo->getTitle(), PDO::PARAM_STR);
-        $stmt->bindValue(':description', $todo->getDescription(), PDO::PARAM_STR);
-        $stmt->execute();
-        return $pdo->lastInsertId();
-    }
-
-    function update($entity) {
-        // Code pour mettre à jour un Todo existant
-    }
-
-    function delete($id) {
-        // Code pour supprimer un Todo
     }
 }
 ?>

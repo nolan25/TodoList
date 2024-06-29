@@ -8,7 +8,7 @@
     
         abstract function insert($entity);    
     
-        abstract function update($entity);
+        abstract function update($entity, $id);
             
         abstract function delete($id);
 

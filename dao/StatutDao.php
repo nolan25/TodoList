@@ -45,7 +45,7 @@ class StatutDao extends AbstractDao implements BaseDao {
     function insert($entity){
     }
 
-    function update($entity){
+    function update($entity, $id){
     }
 
     function delete($id){

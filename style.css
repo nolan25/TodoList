@@ -1,35 +1,125 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     background-color: #f4f4f4;
+    height: 200vh;
+}
+
+button#addTodoButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form#todoForm {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form#todoForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form#todoForm input[type="text"],
+form#todoForm input[type="number"],
+form#todoForm input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form#todoForm button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form#todoForm button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.todo {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.todo h3 {
+    margin: 0 0 10px;
+}
+
+.todo p {
+    margin: 0;
+}
+
+
+.header {
+    background-color: white;
+    color: black;
+    
+}
+button#emptyButton{
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button#logoutButton{
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button-container {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    padding: 20px;
 }
-h1 {
-    color: #333;
+
+.header-button {
+
+    /* Autres styles selon vos besoins */
 }
-#todoContainer {
+
+#todo-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 50%;
-}
-.todo {
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.todo h3 {
-    margin: 0 0 10px;
-    color: #333;
-}
-.todo p {
-    margin: 0;
-    color: #666;
+  
 }

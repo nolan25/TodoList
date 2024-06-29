@@ -8,7 +8,7 @@
     
         public function insert($entity);     
     
-        public function update($entity);
+        public function update($entity, $id);
             
         public function delete($id);     
 

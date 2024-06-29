@@ -14,12 +14,14 @@
 
     //Cette fonction extrait et valide la route à partir du formulaire reçu.
     function extractRoute($form) {
-
         if (!isset($form['route'])) {
-            return 'home'; // Route par défaut
+            return 'Home'; // Route par défaut
         }
         $ROUTE = $form['route'];
+        
+       
         if (preg_match('/^[A-Za-z]+$/', $ROUTE)) {
+      
             return $ROUTE;
         }
         _400_Bad_Request();
@@ -29,12 +31,12 @@
         // Convertir la route en CamelCase
         $METHOD = strtolower($_SERVER['REQUEST_METHOD']);
         $METHOD = ucfirst($METHOD);
-    
-        $ROUTE = ucfirst(strtolower($ROUTE)); // Convertir la première lettre en majuscule pour correspondre au nom de la classe
+        $ROUTE = ucfirst(strtolower($ROUTE));
+         // Convertir la première lettre en majuscule pour correspondre au nom de la classe
         require(ROOT . '/controllers/' . $ROUTE . $METHOD . 'Controller.php');  
+        
     
         $className = $ROUTE . $METHOD . 'Controller';
-        
         if (class_exists($className)) {
             $controller = new $className($FORM);
             return $controller;

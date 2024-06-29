@@ -1,8 +1,8 @@
 <?php
 
+
 define("ROOT", dirname(__FILE__));//Sert de racine pour le chargement des fichiers
 require_once(ROOT . '/utils/functions.php');
-
 
 // Extraire le formulaire en fonction de la méthode HTTP
 $FORM = extractForm();
